@@ -1,0 +1,51 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.7.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'budget-service-1.1'
+}
+
+group = 'com.barsness'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	buildTime = new Date().format("yyyyMMddHHmm")
+	snippetsDir = file('src/docs/generated-snippets')
+}
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+processResources {
+	logger.lifecycle("project.properties about to be expanded")
+	logger.lifecycle("----")
+	def map = project.properties.sort { it.key }
+
+	if (logger.isEnabled(LogLevel.DEBUG)) {
+		map.each { k, v -> logger.debug(":") }
+	}
+
+	filesMatching('**/application-actuatorsupport.properties') {
+		expand project.properties
+	}
+}
