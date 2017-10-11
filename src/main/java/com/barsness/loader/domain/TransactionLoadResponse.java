@@ -14,6 +14,8 @@ public class TransactionLoadResponse {
     private int transFailed;
     private int transSkipped;
     private List<Transaction> duplicateTransactions;
+    private String originalFileName;
+    private long fileSize;
 
     public TransactionLoadResponse(String response, int transLoaded, int transFailed, int transSkipped, List<Transaction> duplicateTransactions) {
         this.response = response;
@@ -64,5 +66,21 @@ public class TransactionLoadResponse {
 
     public void setDuplicateTransactions(List<Transaction> duplicateTransactions) {
         this.duplicateTransactions = duplicateTransactions;
+    }
+
+    public String getOriginalFileName() {
+        return originalFileName;
+    }
+
+    public void setOriginalFileName(String originalFileName) {
+        this.originalFileName = originalFileName;
+    }
+
+    public long getFileSize() {
+        return fileSize;
+    }
+
+    public void setFileSize(long fileSize) {
+        this.fileSize = fileSize;
     }
 }

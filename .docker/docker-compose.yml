@@ -1,0 +1,19 @@
+networks:
+    localdevnetwork:
+
+services:
+    budgetloader_service:
+        build:
+          context: ./service
+          args:
+            ARTIFACT_NAME: budgetloader-service
+            VERSION: ${VERSION}
+        ports:
+          - "8082:8080"
+          - "5006:5005"
+        networks:
+          - localdevnetwork
+        environment:
+          - SPRING_PROFILES_ACTIVE=localdocker
+          - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
+version: '3.1'

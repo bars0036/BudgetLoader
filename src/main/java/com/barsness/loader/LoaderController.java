@@ -2,6 +2,8 @@ package com.barsness.loader;
 
 import com.barsness.loader.domain.TransactionLoadResponse;
 import com.barsness.loader.service.LoaderService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,8 +31,14 @@ public class LoaderController {
     }
 
     @RequestMapping(value="/transaction", method=RequestMethod.POST)
-    public TransactionLoadResponse loadTransactions(@RequestParam MultipartFile file){
-        return loaderService.loadTransactions(file);
+    public ResponseEntity<TransactionLoadResponse> loadTransactions(@RequestParam MultipartFile file){
+        TransactionLoadResponse response = loaderService.loadTransactions(file);
+        if(response.getResponse() == "Success"){
+            return ResponseEntity.status(HttpStatus.OK).body(response);
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
     }
 
 }
